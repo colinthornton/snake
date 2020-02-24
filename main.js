@@ -15,8 +15,8 @@ import {
   const boardRenderer = new BoardRenderer({ board, boardElement });
   let snake = new Snake({ board, initialLength: INITIAL_SNAKE_LENGTH });
   let interval;
+  setEventListeners();
 
-  setKeydownListener();
   reset();
 
   function reset() {
@@ -46,6 +46,11 @@ import {
     scoreElement.textContent = score;
   }
 
+  function setEventListeners() {
+    setKeydownListener();
+    setTouchListener();
+  }
+
   function setKeydownListener() {
     document.addEventListener("keydown", ({ code }) => {
       switch (code) {
@@ -65,6 +70,35 @@ import {
         case "ArrowLeft":
           snake.changeDirection(Directions.LEFT);
           break;
+      }
+    });
+  }
+
+  function setTouchListener() {
+    let touchstartX;
+    let touchstartY;
+    document.addEventListener("touchstart", ({ changedTouches }) => {
+      touchstartX = changedTouches[0].clientX;
+      touchstartY = changedTouches[0].clientY;
+    });
+
+    document.addEventListener("touchend", ({ changedTouches }) => {
+      const touchendX = changedTouches[0].clientX;
+      const touchendY = changedTouches[0].clientY;
+      const deltaX = touchendX - touchstartX;
+      const deltaY = touchendY - touchstartY;
+      if (Math.abs(deltaY) > Math.abs(deltaX)) {
+        if (deltaY < 0) {
+          snake.changeDirection(Directions.UP);
+        } else {
+          snake.changeDirection(Directions.DOWN);
+        }
+      } else {
+        if (deltaX < 0) {
+          snake.changeDirection(Directions.LEFT);
+        } else {
+          snake.changeDirection(Directions.RIGHT);
+        }
       }
     });
   }
