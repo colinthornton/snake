@@ -7,9 +7,11 @@ import {
   TICK_MS,
   INITIAL_SNAKE_LENGTH
 } from "./modules/config.js";
+import { getHighScore, saveHighScore } from "./modules/persistence.js";
 
 (function main() {
   const scoreElement = document.getElementById("score");
+  const highScoreElement = document.getElementById("highScore");
   const boardElement = document.getElementById("board");
   const board = new Board({ height: BOARD_HEIGHT, width: BOARD_WIDTH });
   const boardRenderer = new BoardRenderer({ board, boardElement });
@@ -52,6 +54,13 @@ import {
   function updateScore() {
     const score = snake.getLength() - snake.initialLength;
     scoreElement.textContent = score;
+
+    let highScore = getHighScore() || 0;
+    if (score > highScore) {
+      saveHighScore(score);
+      highScore = score;
+    }
+    highScoreElement.textContent = highScore;
   }
 
   function setEventListeners() {

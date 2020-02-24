@@ -9,7 +9,9 @@ export default class Board {
 
   /**
    * Toggle the pixel at the given `coordinate`.
-   * @param {Coordinate} coordinate
+   * @param {Object} coordinate
+   * @param {number} coordinate.x
+   * @param {number} coordinate.y
    */
   togglePixel({ x, y }) {
     this.pixels[y][x].toggle();

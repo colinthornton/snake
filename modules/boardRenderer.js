@@ -8,7 +8,8 @@ export default class BoardRenderer {
   }
 
   /**
-   * Update element classes to turn pixels on or off.
+   * Update element classes to turn pixels on or off based on the state of
+   * `this.board`.
    */
   render() {
     for (const row of this.board.pixels) {
