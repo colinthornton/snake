@@ -18,10 +18,11 @@ body {
   background-color: rgb(240, 250, 250);
   color: rgba(50, 50, 50, 0.9);
   margin: 0;
-  height: 100%;
+  padding-top: 5vh;
+  height: 95vh;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
