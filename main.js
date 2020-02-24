@@ -42,7 +42,7 @@ import {
   }
 
   function updateScore() {
-    const score = snake.getLength();
+    const score = snake.getLength() - snake.initialLength;
     scoreElement.textContent = score;
   }
 
