@@ -13,7 +13,7 @@ import {
   const boardElement = document.getElementById("board");
   const board = new Board({ height: BOARD_HEIGHT, width: BOARD_WIDTH });
   const boardRenderer = new BoardRenderer({ board, boardElement });
-  let snake = new Snake({ board, initialLength: INITIAL_SNAKE_LENGTH });
+  let snake;
   let interval;
   setEventListeners();
 

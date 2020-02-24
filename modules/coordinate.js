@@ -6,7 +6,9 @@ export default class Coordinate {
 
   /**
    * Checks if given `coordinate` is in the same location as `this`.
-   * @param {Coordinate} coordinate
+   * @param {Object} coordinate
+   * @param {number} coordinate.x
+   * @param {number} coordinate.y
    * @return {boolean} Both coordinates have matching x and y values.
    */
   isSameCoordAs({ x, y }) {

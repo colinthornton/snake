@@ -1,9 +1,9 @@
 import Coordinate from "./coordinate.js";
 
 export default class Snake {
-  constructor({ initialLength = 3, board }) {
+  constructor({ initialLength, board }) {
     // prevent snake from being too large for board
-    this.initialLength = Math.min(initialLength, board.height - 1);
+    this.initialLength = Math.max(1, Math.min(initialLength, board.height - 1));
     this.board = board;
     this._init();
   }
