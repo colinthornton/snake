@@ -14,7 +14,7 @@ import {
   const board = new Board({ height: BOARD_HEIGHT, width: BOARD_WIDTH });
   const boardRenderer = new BoardRenderer({ board, boardElement });
   let snake;
-  let interval;
+  let previousTick;
   setEventListeners();
 
   reset();
@@ -24,21 +24,29 @@ import {
     snake = new Snake({ board, initialLength: INITIAL_SNAKE_LENGTH });
     boardRenderer.render();
     updateScore();
-    interval = setGameTick();
+    previousTick = performance.now();
+    window.requestAnimationFrame(tick);
   }
 
-  function setGameTick() {
-    return setInterval(() => {
-      const status = snake.tick();
-      boardRenderer.render();
-      if (status === Status.GAME_OVER) {
-        clearInterval(interval);
-        setTimeout(reset, 3000);
+  function tick(timestamp) {
+    const nextTick = previousTick + TICK_MS;
+    if (timestamp > nextTick) {
+      const timeSincePreviousTick = timestamp - previousTick;
+      const tickCount = Math.floor(timeSincePreviousTick / TICK_MS);
+      for (let i = 0; i < tickCount; i++) {
+        snake.tick();
+        previousTick = previousTick + TICK_MS;
       }
-      if (status === Status.GROW) {
+      boardRenderer.render();
+      if (snake.status === Status.GAME_OVER) {
+        setTimeout(reset, 3000);
+        return;
+      }
+      if (snake.status === Status.GROW) {
         updateScore();
       }
-    }, TICK_MS);
+    }
+    window.requestAnimationFrame(tick);
   }
 
   function updateScore() {

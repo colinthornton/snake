@@ -13,6 +13,8 @@ export default class Snake {
    * @return {string} from Status "enum"
    */
   tick() {
+    if (this.status === Status.GAME_OVER) return;
+
     const currentHead = this.snakeCoords[0];
     let { x, y } = currentHead;
     switch (this.nextDirection) {
@@ -48,20 +50,21 @@ export default class Snake {
       this.snakeCoords.some(snakeCoord => snakeCoord.isSameCoordAs(nextHead))
     ) {
       // Ran into self
-      return Status.GAME_OVER;
+      this.status = Status.GAME_OVER;
+      return;
     }
 
     this.snakeCoords.unshift(nextHead);
     if (nextHead.isSameCoordAs(this.appleCoord)) {
       // Ran into apple
       this._spawnApple();
-      return Status.GROW;
+      this.status = Status.GROW;
     } else {
       // Just moving
       const currentTail = this.snakeCoords.pop();
       this.board.togglePixel(currentTail);
       this.board.togglePixel(nextHead);
-      return Status.OK;
+      this.status = Status.OK;
     }
   }
 
@@ -70,6 +73,8 @@ export default class Snake {
    * @param {string} nextDirection from Directions "enum"
    */
   changeDirection(nextDirection) {
+    if (this.status === Status.GAME_OVER) return;
+
     const currentDirection = this.currentDirection;
     // prevent 180-degree turn
     switch (currentDirection) {
