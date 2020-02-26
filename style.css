@@ -11,17 +11,17 @@ html {
 }
 
 body {
-  font-family: sans-serif;
-  font-size: 2em;
+  align-items: center;
   background-color: var(--background-color);
   color: var(--text-color);
-  margin: 0;
-  padding-top: 5vh;
-  height: 95vh;
   display: flex;
   flex-flow: column nowrap;
+  font-family: sans-serif;
+  font-size: 2em;
+  height: 95vh;
   justify-content: flex-start;
-  align-items: center;
+  margin: 0;
+  padding-top: 5vh;
 }
 
 div {
@@ -39,12 +39,12 @@ div {
 }
 
 #board {
+  align-items: center;
   background-color: var(--board-color);
   display: flex;
   flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
   height: 80vw;
+  justify-content: space-evenly;
   width: 80vw;
 }
 @media (orientation: landscape) {
@@ -55,13 +55,17 @@ div {
 }
 
 #board .row {
-  display: flex;
-  justify-content: center;
   align-items: center;
+  display: flex;
+  flex: 1;
+  justify-content: space-evenly;
+  width: 100%;
 }
 
 #board .row .pixel {
   border: 1px solid var(--pixel-border-color);
+  flex: 1;
+  height: 100%;
 }
 
 #board .row .pixel.lit {
