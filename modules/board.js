@@ -2,6 +2,12 @@ import Pixel from "./pixel.js";
 
 export default class Board {
   constructor({ height, width }) {
+    if (typeof height !== "number" || height < 1) {
+      height = 16;
+    }
+    if (typeof height !== "number" || width < 1) {
+      width = 16;
+    }
     this.height = height;
     this.width = width;
     this._generateBoard();

@@ -1,9 +1,9 @@
 import { BOARD_HEIGHT, BOARD_WIDTH } from "./config.js";
 
 export default class BoardRenderer {
-  constructor({ board, boardElement }) {
-    this.board = board;
+  constructor({ boardElement, board }) {
     this.boardElement = boardElement;
+    this.board = board;
     this._init();
   }
 

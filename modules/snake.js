@@ -105,11 +105,11 @@ export default class Snake {
   }
 
   /**
-   * Gets the length of the snake.
+   * Gets the amount of apples eaten.
    * @return {number}
    */
-  getLength() {
-    return this.snakeCoords.length;
+  getScore() {
+    return this.snakeCoords.length - this.initialLength;
   }
 
   _init() {

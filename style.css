@@ -1,10 +1,8 @@
 :root {
-  --board-width-xs: 200px;
-  --board-width-sm: 500px;
-  --board-width-m: 700px;
-  --board-width-l: 900px;
-  --board-width-xl: 1100px;
+  --background-color: rgb(240, 250, 250);
+  --text-color: rgba(50, 50, 50, 0.9);
   --board-color: rgb(176, 218, 176);
+  --pixel-border-color: rgba(100, 100, 100, 0.5);
   --lit-pixel-color: rgba(50, 50, 50, 0.8);
 }
 
@@ -15,8 +13,8 @@ html {
 body {
   font-family: sans-serif;
   font-size: 2em;
-  background-color: rgb(240, 250, 250);
-  color: rgba(50, 50, 50, 0.9);
+  background-color: var(--background-color);
+  color: var(--text-color);
   margin: 0;
   padding-top: 5vh;
   height: 95vh;
@@ -42,11 +40,12 @@ div {
 
 #board {
   background-color: var(--board-color);
-  border: 1px solid black;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
+  height: 80vw;
+  width: 80vw;
 }
 @media (orientation: landscape) {
   #board {
@@ -54,22 +53,15 @@ div {
     width: 80vh;
   }
 }
-@media (orientation: portrait) {
-  #board {
-    height: 80vw;
-    width: 80vw;
-  }
-}
 
 #board .row {
   display: flex;
-  flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
 }
 
 #board .row .pixel {
-  border: 1px solid rgba(100, 100, 100, 0.5);
+  border: 1px solid var(--pixel-border-color);
 }
 
 #board .row .pixel.lit {

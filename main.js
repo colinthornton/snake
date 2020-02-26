@@ -1,20 +1,29 @@
 import Board from "./modules/board.js";
 import BoardRenderer from "./modules/boardRenderer.js";
-import Snake, { Directions, Status } from "./modules/snake.js";
 import {
   BOARD_HEIGHT,
   BOARD_WIDTH,
   TICK_MS,
   INITIAL_SNAKE_LENGTH
 } from "./modules/config.js";
-import { getHighScore, saveHighScore } from "./modules/persistence.js";
+import HighScore from "./modules/highScore.js";
+import ScoreRenderer from "./modules/scoreRenderer.js";
+import Snake, { Directions, Status } from "./modules/snake.js";
+import Store from "./modules/store.js";
 
 (function main() {
-  const scoreElement = document.getElementById("score");
-  const highScoreElement = document.getElementById("highScore");
-  const boardElement = document.getElementById("board");
+  const store = new Store({ key: "snake_high_score", initialValue: 0 });
+  const highScore = new HighScore({ store });
+  const scoreRenderer = new ScoreRenderer({
+    scoreElement: document.getElementById("score"),
+    highScoreElement: document.getElementById("highScore"),
+    highScore
+  });
   const board = new Board({ height: BOARD_HEIGHT, width: BOARD_WIDTH });
-  const boardRenderer = new BoardRenderer({ board, boardElement });
+  const boardRenderer = new BoardRenderer({
+    boardElement: document.getElementById("board"),
+    board
+  });
   let snake;
   let previousTick;
   setEventListeners();
@@ -25,7 +34,7 @@ import { getHighScore, saveHighScore } from "./modules/persistence.js";
     board.clearBoard();
     snake = new Snake({ board, initialLength: INITIAL_SNAKE_LENGTH });
     boardRenderer.render();
-    updateScore();
+    scoreRenderer.render(snake.getScore());
     previousTick = performance.now();
     window.requestAnimationFrame(tick);
   }
@@ -41,26 +50,15 @@ import { getHighScore, saveHighScore } from "./modules/persistence.js";
       }
       boardRenderer.render();
       if (snake.status === Status.GAME_OVER) {
+        highScore.saveIfHigher(snake.getScore());
         setTimeout(reset, 3000);
         return;
       }
       if (snake.status === Status.GROW) {
-        updateScore();
+        scoreRenderer.render(snake.getScore());
       }
     }
     window.requestAnimationFrame(tick);
-  }
-
-  function updateScore() {
-    const score = snake.getLength() - snake.initialLength;
-    scoreElement.textContent = score;
-
-    let highScore = getHighScore() || 0;
-    if (score > highScore) {
-      saveHighScore(score);
-      highScore = score;
-    }
-    highScoreElement.textContent = highScore;
   }
 
   function setEventListeners() {
