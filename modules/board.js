@@ -21,8 +21,8 @@ export default class Board {
    * Turn all pixels on the board off.
    */
   clearBoard() {
-    for (let row of this.pixels) {
-      for (let pixel of row) {
+    for (const row of this.pixels) {
+      for (const pixel of row) {
         pixel.unset();
       }
     }
