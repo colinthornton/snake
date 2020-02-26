@@ -12,25 +12,37 @@ export default class BoardRenderer {
   render() {
     for (const row of this.board.pixels) {
       for (const pixel of row) {
-        const pixelElement = document.getElementById(`x${pixel.x}y${pixel.y}`);
-        if (pixel.lit) {
-          pixelElement.classList.add("lit");
+        const { x, y, lit } = pixel;
+        if (lit) {
+          this._pixelElements[y][x].classList.add("lit");
         } else {
-          pixelElement.classList.remove("lit");
+          this._pixelElements[y][x].classList.remove("lit");
         }
       }
     }
   }
 
   _init() {
-    for (const row of this.board.pixels) {
+    this._createPixelElements();
+    this._appendElementsToDOM();
+  }
+
+  _createPixelElements() {
+    this._pixelElements = this.board.pixels.map(row =>
+      row.map(pixel => {
+        const pixelElement = document.createElement("div");
+        pixelElement.className = "pixel";
+        return pixelElement;
+      })
+    );
+  }
+
+  _appendElementsToDOM() {
+    for (const row of this._pixelElements) {
       const rowElement = document.createElement("div");
       rowElement.className = "row";
       this.boardElement.appendChild(rowElement);
-      for (const pixel of row) {
-        const pixelElement = document.createElement("div");
-        pixelElement.className = "pixel";
-        pixelElement.id = `x${pixel.x}y${pixel.y}`;
+      for (const pixelElement of row) {
         rowElement.appendChild(pixelElement);
       }
     }
