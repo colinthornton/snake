@@ -32,7 +32,7 @@ import generateTickFunction from "./modules/tick.js";
   function reset() {
     board.clearBoard();
     const snake = new Snake({ board, initialLength: INITIAL_SNAKE_LENGTH });
-    inputLister.setSnake(snake);
+    inputLister.subscribe(direction => snake.changeDirection(direction));
     boardRenderer.render();
     scoreRenderer.render(snake.getScore());
     const previousTick = performance.now();
