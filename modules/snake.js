@@ -46,22 +46,23 @@ export default class Snake {
     const nextHead = new Coordinate({ x, y });
     this.currentDirection = this.nextDirection;
 
+    if (nextHead.isSameCoordAs(this.appleCoord)) {
+      // Ran into apple
+      this.snakeCoords.unshift(nextHead);
+      this._spawnApple();
+      this.status = Status.GROW;
+      return;
+    }
+
+    const currentTail = this.snakeCoords.pop();
     if (
       this.snakeCoords.some(snakeCoord => snakeCoord.isSameCoordAs(nextHead))
     ) {
       // Ran into self
       this.status = Status.GAME_OVER;
-      return;
-    }
-
-    this.snakeCoords.unshift(nextHead);
-    if (nextHead.isSameCoordAs(this.appleCoord)) {
-      // Ran into apple
-      this._spawnApple();
-      this.status = Status.GROW;
     } else {
       // Just moving
-      const currentTail = this.snakeCoords.pop();
+      this.snakeCoords.unshift(nextHead);
       this.board.togglePixel(currentTail);
       this.board.togglePixel(nextHead);
       this.status = Status.OK;
